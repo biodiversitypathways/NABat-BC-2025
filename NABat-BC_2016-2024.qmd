@@ -146,41 +146,6 @@ transect_covariates<- transect_covariates %>%
 ```
 
 ```{r}
-#| label: setup - create species detection table
-#| include: false
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#|
-#####-------Species Precense Tables---------#
-#load the species precense df for results table
-presence_absence <- read.csv("Data/Analyzed/presence_absence.csv")
-presence_absence$X <- NULL
-presence_absence <- presence_absence %>%
-  mutate(detection = ifelse(is.na(detection), "", detection)) %>%
-  arrange(GRTS.Cell.ID, Quadrant, species) %>%
-  mutate(species = species_names[species])
-colnames(presence_absence) <- c("Species", "Grid Cell ID", "Quadrant", "Detection")
-
-
-# Transform to wide format for Static Table
-presence_wide <- presence_absence %>%
-  # Create a combined column identifier for cell-quadrant
-  mutate(cell_quad = paste(`Grid Cell ID`, Quadrant, sep = "_")) %>%
-  # Pivot wider
-  pivot_wider(
-    id_cols = Species,
-    names_from = cell_quad,
-    values_from = Detection,
-    values_fill = ""
-  ) %>%
-  # Sort columns by cell ID then quadrant
-  select(Species, order(colnames(.)[-1]))
-
-```
-
-```{r}
 #| label: setup - creating interactive map
 #| include: false
 #| echo: false
@@ -648,9 +613,9 @@ The centralization of efforts for the hub will expand exciting programs to coord
 
 ### White-Nose Syndrome
 
-White-nose Syndrome (WNS) is a deadly fungal disease caused by the fungus *Pseudogymnoascus destructans* (*Pd*) that affects hibernating bats. As of 2024, WNS has been confirmed in nine Canadian provinces including Alberta, and *Pd* has been detected within British Columbia ( @fig-WNS: @cwhc-rcsf2024Canadian). Continued monitoring of populations in BC is critical as *Pd* and WNS continue to spread throughout the province.
+White-nose Syndrome (WNS) is a deadly fungal disease caused by the fungus *Pseudogymnoascus destructans* (*Pd*) that affects hibernating bats. As of 2026, WNS has been confirmed in nine Canadian provinces including Alberta, and *Pd* has been detected within British Columbia at two locations ( @fig-WNS: @cwhc-rcsf2024Canadian). Continued monitoring of populations in BC is critical as *Pd* and WNS continue to spread throughout the province.
 
-![White-nose syndrome (WNS) and Pseudogymnoascus destructans (Pd) occurrence in Canada. Source: CWHC-RCSF (2024)](Figures/Pd_Canada.png){#fig-WNS width="700" fig-pos="H"}
+![White-nose syndrome (WNS) and Pseudogymnoascus destructans (Pd) occurrence in Canada. Source: CWHC-RCSF (2026)](Figures/20260226%20Pd%20Canada.png){#fig-WNS fig-pos="H"}
 
 ### Wind Energy Development
 
@@ -700,7 +665,6 @@ kable(samplingE,
   column_spec(3, width = "8em")
 ```
 
-::: {.content-visible when-format="html"}
 ```{r}
 #| echo: false
 #| eval: true
@@ -708,115 +672,90 @@ kable(samplingE,
 #| message: false
 #| include: true
 #| fig-align: center
-#| fig-cap: "NABat survey efforts in 2024 within British Columbia. Analysis regions were defined by Wildlife Conservation Society Canada (WCSC) based on species ranges maps to group areas with similar species compositions."
+#| fig-cap: "NABat survey efforts in 2025 within British Columbia. Analysis regions were defined by Wildlife Conservation Society Canada (WCSC) based on species ranges maps to group areas with similar species compositions."
 #| label: fig-map
 
+# ── Load spatial data ──────────────────────────────────────────────────────────
 transects_sf <- st_read("Data/transects_merged.shp", quiet = TRUE)
 transects_sf <- st_transform(transects_sf, crs = 4326)
 
 regions <- st_read("Data/BC-SEAK Hub Regions Mar 2025.shp", quiet = TRUE)
 regions <- st_transform(regions, crs = 4326)
-
-# Remove Alaska region
 regions <- regions %>%
-  filter(Region != "AK")
-
-# Merge HG, WC, NE, NW into "Northern"
-regions <- regions %>%
+  filter(Region != "AK") %>%
   mutate(Region_Merged = case_when(
     Region %in% c("HG", "WC", "NE", "NW") ~ "Northern",
-    Region == "SE" ~ "Southeast",
-    Region == "SC" ~ "Southcentral",
-    Region == "SW" ~ "Southwest",
-    TRUE ~ Region
+    Region == "SE"                          ~ "Southeast",
+    Region == "SC"                          ~ "Southcentral",
+    Region == "SW"                          ~ "Southwest",
+    TRUE                                    ~ Region
   )) %>%
   group_by(Region_Merged) %>%
   summarise(geometry = st_union(geometry)) %>%
   rename(Region = Region_Merged)
 
-# Define region colors
-region_colors <- c("Northern" = "#70A800",
-                   "Southeast" = "#E6E600",
-                   "Southcentral" = "#E64C00",
-                   "Southwest" = "#0084A8")
+region_colors <- c(
+  "Northern"     = "#70A800",
+  "Southeast"    = "#E6E600",
+  "Southcentral" = "#E64C00",
+  "Southwest"    = "#0084A8"
+)
 
-# Check output format
-if (knitr::is_html_output()) {
-  # Create color palette for sites
-  pal_sites <- colorNumeric(
-    palette = "YlOrRd",
-    domain = sites_sf$N_Years
-  )
-  
-  # Create color palette for regions
-  pal_regions <- colorFactor(
-    palette = region_colors,
-    domain = regions$Region
-  )
-  
-  # Create the map
-  leaflet() %>%
-    addTiles() %>%
-    # Add regions layer FIRST (so other layers appear on top)
-    addPolygons(
-      data = regions,
-      fillColor = ~pal_regions(Region),
-      fillOpacity = 0.3,
-      color = "gray",
-      weight = 2,
-      label = ~Region,
-      group = "Analysis Regions"
-    ) %>%
-    # Add monitoring sites
-    addCircleMarkers(
-      data = sites_sf,
-      popup = ~paste("<b>NABat GRTS ID:</b>", GRTS.Cell.ID, "<br>",
-                     "<b>Quadrant:</b>", Quadrant, "<br>",
-                     "<b>Number of Years Sampled:</b>", N_Years, "<br>",
-                     "<b>Years Sampled:</b>", Years_Sampled),
-      fillColor = ~pal_sites(N_Years),  
-      fillOpacity = 0.8,
-      color = "black", 
-      weight = 1,
-      radius = 8,
-      group = "Monitoring Sites"
-    ) %>%
-    addLegend(
-      "bottomright",
-      pal = pal_sites,
-      values = sites_sf$N_Years,
-      title = "Years Sampled",
-      opacity = 0.8
-    ) %>%
-    addLayersControl(
-      overlayGroups = c("Analysis Regions", "Monitoring Sites", "Transects"),
-      options = layersControlOptions(collapsed = FALSE)
-    ) %>%
-    addScaleBar(position = "bottomleft") %>%
-    addMiniMap(position = "bottomright", toggleDisplay = TRUE) %>%
-    # Add routes layer
-    addPolylines(
-      data = transects_sf, #this was created using SitesFromBat.Data.R
-      color = "darkgreen",
-      weight = 3,
-      opacity = 0.7,
-      label = ~paste0("GRTS ID: ", GRTS_ID, 
-                     " | Years Sampled: ", N_Years,
-                     " | Years: ", Yrs_Smp),
-      highlightOptions = highlightOptions(
-        color = "darkgreen",
-        weight = 5,
-        bringToFront = TRUE
-      ),
-      group = "Transects"
+pal_regions <- colorFactor(palette = region_colors, domain = regions$Region)
+
+# ── Add regions + transects to m ──────────────────────────────────────────────
+m_full <- m %>%
+  # Insert regions behind all other layers by adding first
+  addPolygons(
+    data        = regions,
+    fillColor   = ~pal_regions(Region),
+    fillOpacity = 0.2,
+    color       = "gray",
+    weight      = 2,
+    label       = ~Region,
+    group       = "Analysis Regions"
+  ) %>%
+  addPolylines(
+    data             = transects_sf,
+    color            = "darkgreen",
+    weight           = 3,
+    opacity          = 0.7,
+    label            = ~paste0("GRTS ID: ", GRTS_ID,
+                               " | Years Sampled: ", N_Years,
+                               " | Years: ", Yrs_Smp),
+    highlightOptions = highlightOptions(
+      color        = "darkgreen",
+      weight       = 5,
+      bringToFront = TRUE
+    ),
+    group = "Transects"
+  ) %>%
+  addLayersControl(
+    overlayGroups = c("Analysis Regions", "Transects", "dots", "pies"),
+    options       = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  addScaleBar(position = "bottomleft")
+
+# ── Render ─────────────────────────────────────────────────────────────────────
+if (knitr::pandoc_to("html")) {
+  m_full
+} else {
+  dir.create(file.path(getwd(), "Figures"), showWarnings = FALSE)
+  map_file <- file.path(getwd(), "Figures", "survey_map.png")
+  tryCatch({
+    mapview::mapshot2(
+      m_full,
+      file    = map_file,
+      delay   = 5,
+      vwidth  = 900,
+      vheight = 1100
     )
+  }, error = function(e) {
+    message("mapshot2 failed: ", e$message)
+  })
+  knitr::include_graphics(map_file)
 }
 ```
-:::
-
-::: {.content-visible when-format="pdf"}
-![NABat survey efforts in 2024 within British Columbia. Each point represents a 10 km X 10 km grid cell that contains one to four stationary bat detectors, and where possible, driving transects. Analysis regions were defined by Wildlife Conservation Society Canada (WCSC) based on species ranges maps to group areas with similar species compositions.](Figures/SampleSites_BC.jpg){#fig-map fig-pos="H"}
-:::
 
 ## Data Collection
 
@@ -920,30 +859,7 @@ Although AutoID results are subject to some misclassification, the error rate is
 
 ## Species Detection
 
-In 2024, all species previously documented in BC were detected. The manually verified detections varied among grid cell and regions `r if(knitr::is_html_output()) {"([@tbl-spdetect])"} else {"([Appendix A])"}` . The most widely identified species as well as the most geographically distributed bats that were confirmed through manual ID were the Little Brown Bat followed by the Silver-haired Bat. Any notable species detection are addressed in the discussion.
-
-::: {.content-visible when-format="html"}
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| label: tbl-spdetect
-#| tbl-cap: Bat species detections by GRTS cell and quadrant in 2024. ● = verified single species detection, ○ = species detected in couplet.
-
-library(htmlwidgets)
-
-tbl <- reactable(
-  presence_absence,
-  filterable = TRUE,
-  searchable = TRUE,
-  defaultPageSize = 16,
-  defaultColDef = colDef(align = "center")
-)
-
-htmlwidgets::saveWidget(tbl, "temp_table.html", selfcontained = FALSE)
-htmltools::includeHTML("temp_table.html")
-```
-:::
+In 2024, all species previously documented in BC were detected. The manually verified detections varied among grid cell and regions `r if(knitr::is_html_output()) {"([@tbl-spdetect])"} else {"([Appendix A])"}` . The most widely identified species as well as the most geographically distributed bats that were confirmed through manual ID were the Little Brown Bat followed by the Silver-haired Bat. Any notable species detection are addressed in the discussion
 
 ## Trend Models
 
@@ -1147,16 +1063,6 @@ The BC NABat program has yielded a large and robust acoustic dataset that provid
 -   **Equipment Changes.** In 2025, we will transition to a new set of detectors provided by Biodiversity Pathways. To account for potential differences in detection performance between equipment types, we will deploy both WCSC and Biodiversity Pathways detectors simultaneously at a subset of sites for one field season. This paired deployment will allow us to characterize any systematic differences in overall bat activity, species richness, and the proportion of recordings identified to species level — establishing a calibration baseline to ensure continuity in trend analysis across the equipment transition.
 
 {{< pagebreak >}}
-
-::: {.content-visible when-format="pdf"}
-# Appendix A
-:::
-
-::: {.content-visible when-format="pdf"}
-Bat species detections by GRTS cell and quadrant in 2024. Filled in circles represent verified single species detection, Hollow circle represents species detected in a species couplet. Highlighted species are less likely to produce identifiable recordings.
-
-![](Figures/PDF/occupancy_table_1.jpg) ![](Figures/PDF/occupancy_table_2.jpg) ![](Figures/PDF/occupancy_table_3.jpg) ![](Figures/PDF/occupancy_table_4.jpg) ![](Figures/PDF/occupancy_table_5.jpg) ![](Figures/PDF/occupancy_table_6.jpg) ![](Figures/PDF/occupancy_table_7.jpg) ![](Figures/PDF/occupancy_table_8.jpg) ![](Figures/PDF/occupancy_table_9.jpg)
-:::
 
 {{< pagebreak >}}
 
