@@ -579,6 +579,8 @@ The centralization of efforts for the hub will expand exciting programs to coord
 
 ## Threats to bat populations in BC
 
+Bat populations in British Columbia face a wide range of threats including forestry practices, anthropogenic expansion, and climate change among others. A comprehensive review of tese threats and their relative impacts on individual bat species can be found in the BC Bat Action Plan [@BCBatAction2024Plan]. Of these threats, White-Nose Syndrome and wind energy development have emerged as two of the highest-priority concerns.
+
 ### White-Nose Syndrome
 
 White-nose Syndrome (WNS) is a deadly fungal disease caused by the fungus *Pseudogymnoascus destructans* (*Pd*) that affects hibernating bats. As of 2026, WNS has been confirmed in nine Canadian provinces including Alberta, and *Pd* has been detected within British Columbia at two locations ( @fig-WNS: @cwhc-rcsf2024Canadian). Continued monitoring of populations in BC is critical as *Pd* and WNS continue to spread throughout the province.
