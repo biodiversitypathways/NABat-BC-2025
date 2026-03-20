@@ -1,0 +1,10 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - Logos/
+    - styles.css
+
+website:
+  title: "North American Bat Monitoring Program in British Columbia"
+  site-url: https://biodiversitypathways.github.io/NABat-BC-2025/

@@ -1,11 +1,8 @@
 ---
 title: "North American Bat Monitoring Program in British Columbia"
 subtitle: "Data Summary and Activity Trend Analyses: 2016 - 2025"
-resources:
-  - logos/
 format:
   html:
-    embed-resources: true
     grid:
       margin-width: 300px
     title-block-banner: "#1d4566"
@@ -583,15 +580,7 @@ col_names <- c("Species", rep(c("Estimate ± 95%CI", "P-value"), length(regions)
 
 # Executive Summary
 
-The North American Bat Monitoring (NABat) program is a multi-agency initiative administered by the US Geological Survey (USGS). Wildlife Conservation Society Canada (WCSC) has coordinated and implemented the program in British Columbia from 2016 to 2023. In 2024 the North by Northwest (NNW) Bat Hub was formed by combining the previous Alberta Hub and the BC and southeast Alaska (BC-SE_AK) Hub. The implementation of the program within British Columbia is lead by Biodiversity Pathways with key support from provincial and state representatives and WCSC. In 2024, 57 grid cells throughout all of British Columbia were monitored, and in this report we we will:
-
-1.  Summarize the locations and site information for each grid cell.
-
-2.  Tabulate acoustic identification results from both stationary and transect sampling as well as species activity levels adjusted by sampling effort.
-
-3.  Summarize acoustic identification and trend analyses.
-
-4.  Report on results of monitoring process including significance of results, successes, challenges and lessons learned.
+The North American Bat Monitoring (NABat) program is a multi-agency initiative administered by the US Geological Survey (USGS). In 2024, the North by Northwest (NNW) Bat Hub was formed by combining the former Alberta Hub and the BC and Southeast Alaska (BC-SE_AK) Hub. The NNW Bat Hub leads the NABat program within British Columbia, with key support from provincial and state representatives and WCSC. In 2025, 57 grid cells throughout British Columbia were monitored. Results indicate that bat populations across British Columbia remain stable, with some key species showing small positive trends, including Little Brown Myotis and Eastern Red Bat. Given growing threats to bat populations in BC, continued monitoring is essential to detect any significant changes.
 
 # Land Acknowledgement
 
@@ -619,29 +608,47 @@ White-nose Syndrome (WNS) is a deadly fungal disease caused by the fungus *Pseud
 
 ### Wind Energy Development
 
-Wind energy farms has been linked to high mortality rates across all bat species in Canada, with long distance migratory species accounting for 73% of recorded fatalities [@zimmerling2016Bat]. In British Columbia alone, one estimate predicts an annual mortality rate of 680 bats per wind turbine [@zimmerling2016Bat]. In late 2024, B.C announced nine new wind projects which would require the installation of over 300 new wind turbines across the province [@ministryofenergyandclimatesolutions2024BC]. As of 2023, COSEWIC designated all three of B.C.'s long distance migratory species as endangered due in part to fatalities at wind turbine facilities [@committeeonthestatusofendangeredwildlifeincanada2023Hoary].
+Wind energy farms has been linked to high mortality rates across all bat species in Canada, with long distance migratory species accounting for 73% of recorded fatalities [@zimmerling2016Bat]. In British Columbia alone, one estimate predicts an annual mortality rate of 680 bats per wind turbine [@zimmerling2016Bat]. There are currently close to 300 turbines active in the province across 10 different projects with the most turbines found in the Peace region (@fig-turbines). In late 2024, B.C announced nine new wind projects which would require the installation of over 300 new wind turbines across the province [@ministryofenergyandclimatesolutions2024BC]. As of 2023, COSEWIC designated all three of B.C.'s long distance migratory species as endangered due in part to fatalities at wind turbine facilities [@committeeonthestatusofendangeredwildlifeincanada2023Hoary].
+
+![Current wind turbines in British Columbia based on the Canadian Wind Turbine Database (Source: https://search.open.canada.ca/openmap/79fdad93-9025-49ad-ba16-c26d718cc070)](Figures/WindTurbinesBC.JPG){#fig-turbines}
 
 {{< pagebreak >}}
 
 ## Acoustic Monitoring of Bats
 
-Acoustic recordings provide a relatively low-cost alternative for monitoring bat populations that can cover large geographic and temporal scales compared to other more traditional methods like mistnetting. However, there are a few key problems with how we handle the data and the sorts of conclusions we can gain from these data sets. These include:
+Acoustic recording is a cost-effective method for monitoring bat populations across large geographic and temporal scales. However, several limitations affect the conclusions that can be drawn from these data:
 
-1.  **Species identification for bats is not perfect** - Unlike other groups, such as birds, which use songs for easy identification and mating, bats in British Columbia primarily rely on echolocation to navigate and hunt. As a result, species with similar ecology and physiology often produce overlapping calls, making species identification more challenging. To mitigate this, we deploy detectors in conditions that maximize the proportion of recordings containing unique, diagnostic characteristics---typically referred to as Search Phase calls. However, species identifiability will always vary depending on the local species assemblage
+1.  **Imperfect species identification** — Unlike birds, bats rely on echolocation rather than song, and species with similar ecology and physiology often produce overlapping calls. While detectors are deployed to maximize recordings of diagnostic Search Phase calls, species identifiability will always vary depending on the local assemblage.
 
-2.  **Bat species differ in detectability by acoustic monitoring** - Bat species vary in their ability to be detected acoustically. Larger bats that travel long distances tend to produce louder echolocation calls that travel farther, making them easier to record. In contrast, some bats produce quieter calls that do not carry as far, making them less likely to be detected. Additionally, some species rarely use the habitat types where detectors must be placed. As a result, not all bat species are equally suited for acoustic monitoring, and trend estimates cannot be produced for all species using these methods alone.
+2.  **Variable detectability** — Bat species are not equally detectable acoustically. Larger, wide-ranging species produce louder calls that travel farther, while smaller species with quieter calls or specialized habitat use are less reliably recorded. As a result, trend estimates cannot be produced for all species using acoustic methods alone.
 
-3.  **Variability in the data** - There are many different variables that can impact the quality and amount of data recorded by acoustic detectors. These can include variables that impact bat activity and flight patterns including weather variables like wind speed. It can also include variables that change the distance sound can travel at like humidity. Moreover, stationary accoustics cannot account for abundance, since it is impossible for us to know whether an individual is recorded more than once, and can only be used for relative activity and occupancy.
+3.  **Data variability** — Many factors influence recording quality and bat activity, including wind speed, humidity, and local habitat. Additionally, stationary detectors cannot account for individual recapture, meaning acoustic data can only inform relative activity and occupancy.
 
-4.  **Processing methods** - Processing methodology can have an impact on the results received. The use of auto-ID software is helpful for processing large volumes of data, but has been shown to have high levels of misclassification for bats. Therefore, manual verification is necessary to correct and verify auto-ID results.
+4.  **Processing limitations** — Auto-ID software enables efficient processing of large datasets but has known high misclassification rates for bats, making manual verification necessary to ensure accurate results.
+
+## Update in Statistical Models
+
+Bat monitoring data can be analyzed using different statistical approaches, each with distinct assumptions and outputs. Activity trend models examine changes in relative acoustic activity over time, providing a straightforward measure of whether bat detections are increasing, decreasing, or remaining stable across the monitoring network.
+
+Dynamic occupancy models take a different approach, estimating the probability that a species occupies a given site, while explicitly accounting for imperfect detection. Rather than treating a non-detection as an absence, these models distinguish between a species being truly absent versus simply going undetected — an important consideration given the variable detectability of bats discussed above. They also track colonization and extinction probabilities across sites over time, providing insight into range shifts and local population dynamics.
+
+In 2025, both model types were run to examine differences in results and assess the complementary information each approach provides.
 
 # Methods
 
-## Sampling Sites
+## Data Collection
 
-The NABat monitoring program was established in 2016 by WCSC and has sampled a total number of 65 grids since then. Grid cells were selected based on the GRTSID system established by @loeb2015Plan and based on accessibility to the grid, presence of bat habitat, and availability of a good sites for bat acoustic recorders. Preference is also given to grid cells with a road running through it that can be used for a driving transect (30-45 km, relatively straight).
+The NABat monitoring program was established in BC in 2016 by WCSC and has sampled 65 grid cells in total. Cells were selected using the GRTSID system [@loeb2015Plan], based on accessibility, presence of bat habitat, suitable recorder sites, and where possible, a road suitable for a driving transect (30–45 km, relatively straight).
 
-63 cells are currently active, of which `r samplingE[9,2]` were monitored in 2024 for a total number of `r samplingE[9,3]` site nights ([@tbl-samp]). Site nights are defined as the cumulative number of nights during which recorders were operational. `r 63-samplingE[9,2]` cells were not monitored in 2024 due to a lack of local staff and capacity. The network is well-distributed across the province, with a slight bias towards southern BC and near population centers ([@fig-map])
+Of 63 currently active cells, `r samplingE[9,2]` were monitored in 2025 for a total of `r samplingE[9,3]` site nights ([@tbl-samp]); the remaining `r 63-samplingE[9,2]` were not monitored due to limited local capacity. The network is well-distributed across the province, with a slight bias toward southern BC and population centres (\[@fig-map\]).
+
+**Stationary Surveys**
+
+Two to four stationary detectors were deployed across at least two quadrants per grid cell for a minimum of seven nights. Sites are selected to maximize species detection and recording quality across different habitat types (see \[@rae2024North\] for full site selection criteria). Deployment occurs between mid-May and mid-July, after bats have emerged from hibernation but before young bats are volant. Sites and timing are kept consistent between years to minimize variability in conditions affecting bat activity.
+
+**Transect Surveys**
+
+Where possible, driving transects were conducted following @loeb2015Plan. Two replicates of a 30–35 km route are driven at 30–35 km/h with a rooftop detector, using straight roads that minimize switchbacks. Transects are conducted concurrently with stationary deployments.
 
 ```{r}
 #| echo: false
@@ -665,27 +672,15 @@ kable(samplingE,
   column_spec(3, width = "8em")
 ```
 
-## Data Collection
-
 ### Equipment
 
-There is a wide range of equipment used across the sampling locations in BC. Most of the stationary units are [Wildlife Acoustics](https://www.wildlifeacoustics.com/) SM4Bat-FS or the SM2Bat unit (Maynard, MA), and increasingly [Titley Scientific](https://www.titley-scientific.com/)'s Swift and Express units (Brisbane, AU). Most of the mobile transects are conducted with either Wildlife Acoustics' EchoMeter Touch2Pro or Titley Scientific's Anabats (SD1/2 zero cross models or Walkabout model).
+A wide range of equipment is used across sampling locations in BC. Stationary units are primarily Wildlife Acoustics SM4Bat-FS or SM2Bat units (Maynard, MA), alongside an increasing number of Titley Scientific Swift and Express units (Brisbane, AU). Mobile transects are conducted using either the Wildlife Acoustics EchoMeter Touch2Pro or Titley Scientific Anabat units (SD1/2 zero-cross or Walkabout models).
 
-### Stationary Surveys
-
-Stationary deployment sites are strategically chosen to record the full range of bat species in each cell while maximixing recording quality, avoiding sources of noise, and surveying different habitat types across the grid cell. For a more detailed explanation of site selection criteria refer to previous reporting done in BC [@rae2024North].
-
-Grid Leaders deployed two to four stationary bat detectors in strategically selected bat habitat in at least two quadrants (ideally one detector per quadrant) within each grid cell, for a minimum of seven nights each year.
-
-Deployment occurs between mid-May and mid-July, depending on climate patterns, to ensure monitoring occurs after bats have returned from hibernation, but prior to volancy of young bats. Surveys are repeated annually at each grid cell during a similar date range for consistency in conditions that may influence bat activity (e.g., temperature, moon phase, precipitation). Similarly, detector sites within a grid cell remain the same between years, unless a site becomes inaccessible or relocation is recommended based on assessment of quality of recordings.
-
-### Transect Surveys
-
-Where possible, driving transects are carried out to help estimate relative abundance. The protocol closely follows that established by @loeb2015Plan. Roads that are relatively straight that minimize the number of switchbacks present are selected within each grid cell. Two replicates of a mobile transect are driven at 30 - 35km/h with a bat detector on the roof to record bats along the road. Transects are conducted during the same time period in which stationary detectors are deployed.
+2025 represents a transition year for equipment standardization. All SM2Bat units are being replaced with Titley Scientific Chorus units, and Anabat units are being phased out in favour of the EchoMeter Touch2Pro for mobile transects. To account for detection differences between outgoing and incoming equipment, paired deployments were conducted at a number of grid cells this year, both stationary (SM2Bat and Chorus) and mobile (Anabat SD1 and EchoMeter Touch2Pro). These paired deployments will provide correction factors to ensure data comparability across the transition period.
 
 ### Model Covariates
 
-Numerous environmental factors influence bat activity across British Columbia. @rae2022North developed species-specific stationary models that incorporate only the most relevant covariates for each species ([@tbl-cov]).
+Numerous environmental factors influence bat activity across British Columbia. Species-specific covariates for stationary models were established by @rae2022North using AIC-based stepwise selection ([@tbl-cov]).
 
 ```{r}
 #| echo: false
@@ -707,7 +702,7 @@ kable(model_covariates,
   column_spec(3, width = "20em")
 ```
 
-We applied a similar approach as @rae2022North for selecting the covariates for the relative abundance (transect) models. For these models, we conducted model selection using a candidate set of weather covariates — nightly mean temperature, relative humidity, wind speed, and moon illumination — testing all possible combinations of these variables. The most parsimonious model for each species was selected based on the lowest Akaike Information Criterion (AIC) value, resulting in species-specific covariate sets ([@tbl-cov-transects]).
+Transect models followed the same selection approach, testing all combinations of nightly mean temperature, relative humidity, wind speed, and moon illumination, with the most parsimonious model for each species selected based on lowest AIC (\[@tbl-cov-transects\]).
 
 ```{r}
 #| echo: false
@@ -729,21 +724,17 @@ kable(transect_covariates,
   column_spec(3, width = "20em")
 ```
 
-To measure ambient temperature and humidity, we aim to deploy at least one temperature and relative humidity logging device in each grid cell. When deployment is not feasible, ambient conditions are estimated using data from the nearest climate station. Additional climate-related covariates include mean nightly wind speed (km/h), cumulative precipitation since January 1 of each year (mm), and total degree days above 10°C since January 1, calculated using climate station data. Moonlight exposure is calculated as the proportion of the moon illuminated at night multiplied by the proportion of the night the moon remains above the horizon. Other key covariates, such as distance to clutter, percent clutter, distance to water, and type of water feature, are recorded by grid cell leaders during site deployment.
+Dynamic occupancy model covariates were based on those established by @rae2022North, with additional exploration of factors influencing colonization and extinction. These included distance to roads and distance to harvest cutblocks, derived from the unpublished Human Footprint Index (HFI) layer currently being developed by the Geospatial Centre within Biodiversity Pathways.
 
-In 2022, the WCSC initiated data collection on insect activity along transect routes by mounting sticky traps to the hoods of vehicles conducting transects. These sticky sheets, submitted by grid leaders alongside other data and equipment, are analyzed to identify insects to order level and quantify their numbers. This information will be evaluated as a covariate of bat activity by WCSC.
+Where possible, temperature and relative humidity are recorded in each grid cell using onsite logging devices; otherwise, data are sourced from the nearest climate station. Additional covariates include nightly mean wind speed (km/h), cumulative precipitation since January 1 (mm), degree days above 10°C since January 1, and moon illumination (proportion illuminated × proportion of night above horizon). Site-level covariates — including distance to clutter, percent clutter, distance to water, and water feature type — are recorded by grid leaders during deployment.
+
+Since 2022, insect activity has been measured along transect routes using vehicle-mounted sticky traps. Collected samples are identified to order level by WCSC and will be evaluated as a potential covariate of bat activity.
 
 ## Acoustic Processing
 
-In 2024 acoustic analysis mostly followed the standards set by WCSC in previous years [@rae2022North; @rae2024North]. This included running all files through two automatic classifiers, Kaleidoscope's Bats of North America 5.4.0 classifier and Sonobat 3.0's Northwestern British Columbia classifier, to remove files that do not contain bat pulses and giving a preliminary bat species identification.
+In 2025 acoustic analysis mostly followed the standards set in previous years [@rae2022North; @rae2024North]. This included running all files through two automatic classifiers, Kaleidoscope's Bats of North America 5.4.0 classifier and Sonobat 3.0's Northwestern British Columbia classifier, to remove files that do not contain bat pulses and giving a preliminary bat species identification.
 
-Manual vetting largely follows the protocol of @reichert2018Guide and previous analysis standards developed by WCSC. The key difference in the 2024 acoustic analysis compared to previous years is that not all automatic species identifications were manually verified. Instead, based on findings from @stratton2022Coupling, at least 50% of recordings were selected for manual verification.
-
-### Subsetting of for manual verification
-
-Starting in 2024, the NNW Bat Hub implemented manual vetting of only a subset of all the bioacoustic data collected under the NABat program. Given the project's large scale, manually vetting all recordings is not feasible long-term. To address this, the NNW Bat Hub, in collaboration with WCSC and Brian Paterson, developed procedures to ensure that selecting a subset of recordings for manual review minimizes biases in analytical results. These standards prioritize the accurate identification of rare and difficult-to-recognize species to maintain the integrity of models and analyses.
-
-To ensure data accuracy, manual verification was conducted based on the number of tagged recordings at each site. For sites with 200 or fewer tagged recordings, all non-noise recordings were manually reviewed. For sites with more than 200 tagged recordings, verification depended on the proportion of recordings assigned a species label. All tags for rare species (comprising ≤10% of prior years' identifications) and commonly misidentified species were fully vetted. Specifically, all Eastern Red Bat (*Lasiurus borealis*) tags were manually reviewed due to frequent misclassification as Little Brown Bats (*Myotis lucifugus*). Additionally, recordings of common species were randomly selected for verification until 50% of total recordings were reviewed. If fewer than 50% of recordings had species tags, all classifier-assigned tags were manually verified, and "NoID" recordings were randomly selected until 50% of all recordings were reviewed.
+Manual vetting follows @reichert2018Guide and analysis standards developed by the NNW Bat Hub and WCSC. Consistent with 2024, approximately 50% of all recordings were manually verified; for full details on this process, refer to the 2024 BC NABat Report.
 
 ## Statistical Analyses
 
@@ -755,13 +746,11 @@ Species were excluded from the analysis if model fit was not appropriate due to 
 
 #### Use of Automated Identification Results in Stationary Trend Analyses
 
-For the stationary trend analyses in this report, we used automated identification (AutoID) classifications from Kaleidoscope Pro and Sonobat 3.0. Manual verification was applied only when reviewers determined that an AutoID detection was noise (i.e., not a bat call). If manual review suggested a different bat species than the AutoID label, the original AutoID classification was retained.
+Stationary trend analyses used AutoID classifications from Kaleidoscope Pro and Sonobat 3.0. Manual verification was applied only to flag non-bat noise; where manual review suggested a different species than the AutoID label, the original AutoID classification was retained.
 
-This approach was adopted after preliminary analyses revealed an unexpected pattern in the manually verified dataset. Initial models using manually verified identifications showed a consistent positive trend in detections for all species over time. We interpret this pattern as an artifact of the manual verification process rather than a true biological trend. Specifically, as the manual verifier gained experience over multiple years of reviewing recordings, they became increasingly likely to assign calls to specific species rather than leaving them unidentified or classifying them in broader categories.
+This approach was first identified as necessary in 2023 [@rae2022North], when analyses of manually verified data revealed a consistent positive trend across all species, this was interpreted as an artifact of reviewer learning over time rather than a true biological signal. As verifier experience increased across years, calls were increasingly assigned to specific species rather than left unidentified, producing an apparent increase in detections independent of actual bat activity. Because this observer effect is difficult to control for statistically, AutoID classifications are now used as the standard for all activity trend analyses, as automated classifiers apply consistent criteria across all years. While AutoID is subject to some misclassification, the error rate is consistent across years and does not confound detection of genuine temporal trends.
 
-This "learning effect" would appear as an increase in species detections over time, even if actual bat populations or activity remained constant. Because it is difficult to quantify or control for this observer effect within statistical models, we concluded that AutoID results provide a more reliable dataset for trend analysis. Automated classifiers apply consistent criteria across all years of data, removing the temporal bias introduced by changes in reviewer experience or confidence.
-
-Although AutoID results are subject to some misclassification, the error rate is consistent across years and does not confound detection of genuine temporal trends. Manually verified noise designations were incorporated to exclude non-bat sounds, ensuring temporal consistency in species-level classifications. Trend analyses are presented only for species confirmed to be present at the sites through manual verification and for which models fully converged.
+Trend analyses are presented only for species confirmed present through manual verification and for which models fully converged.
 
 ### Dynamic Occupancy
 
@@ -775,7 +764,7 @@ Models were fit in a Bayesian framework using JAGS via the jagsUI package in R, 
 
 # Results
 
-2024 marked the ninth year of coordinated NABat sampling done in BC. A total of 56 grid cells were sampled with the support of over 60 individuals including contractors, volunteers and staff members from BC Parks, BC WLRS, and BC Ministry of Forests. Grid leaders have also collected a total of 29 transect insect sticky trap samples in 2024.
+2025 marked the tenth year of coordinated NABat sampling done in BC. A total of 56 grid cells were sampled with the support of over 60 individuals including contractors, volunteers and staff members from BC Parks, BC WLRS, and BC Ministry of Forests. Grid leaders have also collected a total of 16 transect insect sticky trap samples in 2025.
 
 ## Species Detection
 
@@ -1038,11 +1027,13 @@ Poorly estimated species: PAHE and TABR had extremely low detection probabilitie
 
 Detection: Temperature was the most consistent detection covariate–warmer nights equate to higher detection for most species. There were some clutter effects on detection probability that were species-specific. Julian date effects were mixed across species. 
 
+![Dynamic occupancy estimates (ψ) for 17 bat species monitored across British Columbia from 2017–2025. Points represent annual mean occupancy estimates and shaded areas indicate 95% credible intervals.](Figures/DOccupancy/ALL_occupancy_panel.png){#fig-dynamicocALL}
+
 # Discussion
 
 ## Species Presence
 
-Species ranges across the project period (2016–2024) continue to appear broadly stable, with no grid cells showing conspicuous or sustained absences for previously detected species. Noteworthy species detected in 2024 were:
+Species ranges across the project period (2016–2025) continue to appear broadly stable, with no grid cells showing conspicuous or sustained absences for previously detected species. Noteworthy species detected in 2024 were:
 
 **Yuma Myotis** has been previously confirmed in the Nicholson grid cell, however, in 2024 we did not record any diagnostic calls. We will continue to monitor this cell in subsequent years.
 
@@ -1054,7 +1045,9 @@ Species ranges across the project period (2016–2024) continue to appear broadl
 
 ## Trend analyses
 
-This year marked the first time Biodiversity Pathways conducted the trend analyses, working closely with the models previously developed and implemented by WCSC. Overall, results suggest that bat populations remain broadly stable across British Columbia, with no species showing widespread negative trends.
+### Activity Trends
+
+Overall, results suggest that bat populations remain broadly stable across British Columbia, with no species showing widespread negative trends.
 
 Several species showed statistically significant positive trends in both province-wide and South Coastal regional models. However, these results should be interpreted with caution. The 2024 dataset was processed using upgraded versions of the autoID programs (Kaleidoscope 5.9.0 and Sonobat 30), and it is possible that improvements in classification performance are contributing to the apparent positive trends. Re-running the full historical dataset through the updated autoID pipeline would help clarify whether these trends reflect a real biological signal or an analytical artifact of the software transition, and is recommended as a priority for future work.
 
@@ -1063,6 +1056,8 @@ Caution is also warranted when evaluating the magnitude of the trend estimates. 
 The significant negative trend detected for Hoary Bat in the South Coastal Region warrants attention and should be monitored closely in coming years to determine whether this represents a genuine localized decline or reflects sampling variability.
 
 More broadly, as threats to bat populations continue to grow, it may be worth exploring complementary analytical approaches alongside activity-based trend models. Acoustic activity metrics carry inherent noise, and detecting meaningful population signals can be challenging, particularly for species with low detection rates or patchy distributions. We recommend exploring occupancy modelling as a complementary approach in future analyses, as it may provide a clearer population signal by reducing the noise inherent in activity-based trend estimates from stationary acoustic data.
+
+### Dynamic Occupancy
 
 The dynamic occupancy estimates suggest that the bat community in BC appears to be generally stable to increasing over 2017-2025, with no species showing evidence of decline. Species showing strongest increases are Myotis species and LABO. Two species can’t be reliably assessed (PAHE, TABR) due to very low detection rates. Distance to road has an effect on colonization and persistence dynamics for several species, with sites closer to roads tending to have higher turnover.
 
@@ -1085,6 +1080,10 @@ The BC NABat program has yielded a large and robust acoustic dataset that provid
 {{< pagebreak >}}
 
 {{< pagebreak >}}
+
+# Appendix A
+
+![](images/clipboard-1267572074.png)![](images/clipboard-2381023598.png)![](images/clipboard-2584432345.png)![](images/clipboard-4243416049.png)![](images/clipboard-2768753452.png)![](images/clipboard-361956783.png)![](images/clipboard-291564491.png)![](images/clipboard-2480187280.png)![](images/clipboard-3844675028.png)![](images/clipboard-3490882160.png)![](images/clipboard-390509750.png)![](images/clipboard-358754788.png)![](images/clipboard-149203103.png)![](images/clipboard-3641637788.png)![](images/clipboard-1886603302.png)![](images/clipboard-1672079282.png)![](images/clipboard-2775641908.png)![](images/clipboard-1239408147.png)![](images/clipboard-3065992537.png)![](images/clipboard-1514866696.png)![](images/clipboard-3067857120.png)![](images/clipboard-3015708547.png)![](images/clipboard-1028350744.png)![](images/clipboard-320766212.png)![](images/clipboard-3987199258.png)![](images/clipboard-907181628.png)![](images/clipboard-3832638027.png)![](images/clipboard-2996506328.png)![](images/clipboard-344941766.png)![](images/clipboard-3743129967.png)![](images/clipboard-1412688318.png)![](images/clipboard-2126305700.png)![](images/clipboard-2549826261.png)![](images/clipboard-510851895.png)![](images/clipboard-1650968393.png)![](images/clipboard-1456309094.png)![](images/clipboard-3081408464.png)![](images/clipboard-3203452304.png)![](images/clipboard-232071095.png)![](images/clipboard-418757452.png)![](images/clipboard-1581575649.png)![](images/clipboard-1840991189.png)![](images/clipboard-2424367020.png)![](images/clipboard-1971018695.png)![](images/clipboard-129444257.png)![](images/clipboard-3614334769.png)![](images/clipboard-691748644.png)![](images/clipboard-1913924916.png)![](images/clipboard-504246845.png)![](images/clipboard-2023445701.png)![](images/clipboard-1719421298.png)![](images/clipboard-3590729106.png)![](images/clipboard-1237590987.png)![](images/clipboard-1282248688.png)![](images/clipboard-556168714.png)![](images/clipboard-4101332239.png)![](images/clipboard-1844903765.png)![](images/clipboard-1079634519.png)![](images/clipboard-4094497022.png)![](images/clipboard-865099794.png)![](images/clipboard-4088300998.png)![](images/clipboard-976697193.png)![](images/clipboard-1099412095.png)![](images/clipboard-817490926.png)![](images/clipboard-2183359796.png)![](images/clipboard-2312598002.png)![](images/clipboard-1262511847.png)![](images/clipboard-3386870832.png)
 
 ::: {.content-visible when-format="pdf"}
 # Literature Cited
